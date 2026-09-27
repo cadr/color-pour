@@ -1,0 +1,11 @@
+{
+  "name": "color-pour",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Color Pour puzzle designer for a physical color-sorting block kit",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "test:e2e": "node test/e2e/browser.e2e.js"
+  }
+}

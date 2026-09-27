@@ -1,0 +1,362 @@
+:root {
+  --bg: #f5f6f8;
+  --panel-bg: #ffffff;
+  --text: #1a1d23;
+  --muted: #5c6370;
+  --border: #d8dbe1;
+  --accent: #3d6ff0;
+  --accent-text: #ffffff;
+  --error-bg: #fdecec;
+  --error-text: #9c1c1c;
+  --error-border: #f2b8b8;
+  --win-bg: #e6f7ec;
+  --win-text: #17703a;
+  --slot-bg: #eef0f4;
+  --slot-border: #c3c8d1;
+  --highlight: #ffd54a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14161a;
+    --panel-bg: #1d2026;
+    --text: #eceef2;
+    --muted: #9aa1ad;
+    --border: #33373f;
+    --accent: #6d94ff;
+    --accent-text: #0c1220;
+    --error-bg: #3a1c1c;
+    --error-text: #ffb3b3;
+    --error-border: #6b2b2b;
+    --win-bg: #12321f;
+    --win-text: #7fe3a4;
+    --slot-bg: #262a32;
+    --slot-border: #3c414c;
+    --highlight: #f4c430;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.app-header {
+  padding: 1.25rem 1rem 0.5rem;
+  text-align: center;
+}
+.app-header h1 { margin: 0 0 0.25rem; }
+.tagline { margin: 0; color: var(--muted); }
+
+#app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0.5rem 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem 1.25rem;
+}
+.panel h2 { margin-top: 0; }
+.panel h3 { margin-bottom: 0.5rem; }
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.5rem 0;
+  flex-wrap: wrap;
+}
+.form-row label {
+  min-width: 150px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+input[type="number"], input[type="text"], select {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.4rem 0.55rem;
+  font-size: 0.95rem;
+  max-width: 220px;
+}
+input[type="color"] {
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+}
+
+.btn {
+  background: var(--panel-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.saved-msg { color: var(--muted); font-size: 0.9rem; }
+.hint-text { color: var(--muted); font-size: 0.85rem; margin: 0.1rem 0 0.75rem; }
+
+.error-box {
+  background: var(--error-bg);
+  color: var(--error-text);
+  border: 1px solid var(--error-border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  white-space: pre-wrap;
+}
+
+/* Inventory rows */
+.inventory-list { display: flex; flex-direction: column; gap: 0.4rem; margin: 0.5rem 0; }
+.inventory-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.inventory-row input[type="text"] { max-width: 140px; }
+.inventory-row input[type="number"] { max-width: 90px; }
+.inventory-row .count-label { color: var(--muted); font-size: 0.85rem; }
+.inventory-row .remove-btn {
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+}
+.inventory-row .remove-btn:hover { color: var(--error-text); }
+.inventory-row.disabled { opacity: 0.5; }
+.inventory-row .adv-name { min-width: 90px; }
+
+details summary { cursor: pointer; font-weight: 600; padding: 0.25rem 0; }
+
+/* Legend */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 0.5rem 0 1rem;
+}
+.legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; }
+.legend-swatch {
+  min-width: 1.1rem; height: 1.1rem; padding: 0 0.15rem; box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.25);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; font-weight: 700; color: rgba(0,0,0,0.6);
+  white-space: nowrap;
+}
+
+/* Bottles */
+.bottles-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 0.9rem;
+  margin: 1rem 0;
+}
+.bottle-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+.bottle-label { font-size: 0.8rem; color: var(--muted); }
+.bottle {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  width: 2.6rem;
+  border: 2px solid var(--slot-border);
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  background: var(--slot-bg);
+  overflow: hidden;
+  cursor: pointer;
+  padding: 2px;
+  gap: 2px;
+}
+.bottle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.bottle.selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.bottle.highlight-from { box-shadow: 0 0 0 3px var(--highlight); }
+.bottle.highlight-to { box-shadow: 0 0 0 3px #4ad66d; }
+
+.block {
+  height: 1.5rem;
+  width: 100%;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: rgba(0,0,0,0.55);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.25);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.18); /* keeps light colors like White visible */
+}
+.block-empty-slot {
+  height: 1.5rem;
+  width: 100%;
+}
+
+/* Play + solution controls */
+.play-controls, .solution-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: 0.75rem 0;
+}
+.move-counter { color: var(--muted); font-size: 0.9rem; margin-left: auto; }
+
+.win-message {
+  background: var(--win-bg);
+  color: var(--win-text);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+.hint-message {
+  background: var(--slot-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  margin: 0.5rem 0;
+}
+
+.setup-list-text {
+  white-space: pre-wrap;
+  background: var(--slot-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+}
+
+.solution-list { padding-left: 1.4rem; }
+.solution-list li { margin: 0.15rem 0; }
+.solution-list li.current { font-weight: 700; }
+
+.puzzle-meta { display: block; margin: 0.1rem 0 0.75rem; font-size: 0.9rem; color: var(--muted); font-weight: 400; }
+
+@media (max-width: 480px) {
+  .form-row label { min-width: 100%; }
+  .bottle { width: 2.2rem; }
+  .block, .block-empty-slot { height: 1.25rem; }
+}
+
+/* Printable set (on-screen preview; print sizing is below) */
+.batch-title { margin: 0; margin-right: auto; }
+.print-sheet { display: flex; flex-direction: column; gap: 1rem; }
+.print-page {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 0.75rem;
+}
+.print-card {
+  border: 1px dashed var(--slot-border);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  min-width: 0;
+  overflow: hidden;
+}
+.print-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+.print-card-num { font-weight: 700; }
+.print-card-meta { color: var(--muted); font-size: 0.85rem; }
+.print-card-bottles {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem var(--card-gap, 0.5rem);
+  margin: 0.6rem 0;
+}
+.print-card-bottles .bottle { width: var(--card-bottle-w, 2.2rem); cursor: default; padding: 1px; gap: 1px; }
+.print-card-bottles .block,
+.print-card-bottles .block-empty-slot { height: var(--card-block-h, 1.25rem); }
+.print-card-bottles .block { font-size: 0.6rem; }
+.print-card-legend { gap: 0.25rem 0.6rem; margin: 0; }
+.print-card-legend .legend-item { font-size: 0.75rem; }
+.print-answers h3 { margin: 0 0 0.25rem; }
+.print-answers-note { color: var(--muted); font-size: 0.85rem; margin: 0 0 0.5rem; }
+.print-answers-list { padding-left: 1.6rem; margin: 0; font-size: 0.85rem; }
+.print-answers-list li { margin: 0.2rem 0; }
+
+@media print {
+  /* Always print on the light palette, even from a dark-mode screen. */
+  :root {
+    --text: #000;
+    --muted: #444;
+    --border: #bbb;
+    --slot-bg: #fff;
+    --slot-border: #333;
+  }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .no-print { display: none !important; }
+  body { background: #fff; color: #000; }
+  .panel { border: none; padding: 0; }
+  .bottle { border-color: #333; }
+
+  /* The single-puzzle Print button prints the puzzle panel only; the Print
+     set button (body.printing-set) prints the set only. */
+  body:not(.printing-set) #batch-panel { display: none !important; }
+  body.printing-set #app > :not(#batch-panel) { display: none !important; }
+  body.printing-set #app { max-width: none; margin: 0; padding: 0; }
+
+  /* Legal page (8.5in x 14in) minus 0.4in margins = 7.7in x 13.2in,
+     split into 2 columns x 3 rows of cut-apart cards. Height is a hair
+     under 13.2in so rounding never spills onto a blank extra page. */
+  .print-sheet { display: block; }
+  .print-page {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    height: 13.1in;
+    break-after: page;
+    break-inside: avoid;
+  }
+  .print-sheet > .print-last { break-after: auto; }
+  .print-card {
+    border-radius: 0;
+    border-color: #999;
+    padding: 0.2in 0.2in;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .print-card-head { font-size: 13pt; }
+  .print-card-bottles .bottle-label { font-size: 9pt; font-weight: 600; color: #000; }
+  .print-card-meta { font-size: 10pt; }
+  .print-card-bottles { margin: 0; }
+  .print-card-bottles .block { font-size: min(7pt, calc(var(--card-block-h) * 0.6)); overflow: hidden; white-space: nowrap; }
+  .print-card-legend .legend-item { font-size: 8pt; }
+  .print-answers { font-size: 9pt; }
+  .print-answers-list { font-size: 9pt; columns: 2; column-gap: 0.4in; }
+  .print-answers-list li { break-inside: avoid; }
+}

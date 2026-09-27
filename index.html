@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Color Pour</title>
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+<header class="app-header no-print">
+  <h1>Color Pour</h1>
+  <p class="tagline">Design and solve color-sorting puzzles for your physical block rack.</p>
+</header>
+
+<main id="app">
+
+  <div id="error-box" class="error-box" role="alert" hidden></div>
+
+  <!-- SETUP PANEL -->
+  <section class="panel no-print" id="setup-panel">
+    <h2>1. Your kit</h2>
+    <div class="form-row">
+      <label for="input-colors">Number of colors</label>
+      <input type="number" id="input-colors" min="2" max="30" value="5">
+    </div>
+    <div class="form-row">
+      <label for="input-capacity">Slot height (blocks)</label>
+      <input type="number" id="input-capacity" min="2" max="12" value="6">
+    </div>
+    <p class="hint-text" id="slots-readout"></p>
+
+    <div class="form-row">
+      <label for="pour-mode">Pour rule</label>
+      <select id="pour-mode">
+        <option value="classic" selected>Classic (pour as much as fits)</option>
+        <option value="strict">Strict (whole color group must fit)</option>
+      </select>
+    </div>
+
+    <h3>Colors</h3>
+    <div id="inventory-list" class="inventory-list"></div>
+    <button type="button" id="add-color-btn" class="btn">+ Add color</button>
+
+    <div class="form-row">
+      <button type="button" id="save-setup-btn" class="btn btn-primary">Save kit setup</button>
+      <button type="button" id="reset-setup-btn" class="btn">Reset kit</button>
+      <span id="setup-saved-msg" class="saved-msg" hidden>Saved</span>
+    </div>
+  </section>
+
+  <!-- GENERATE PANEL -->
+  <section class="panel no-print" id="generate-panel">
+    <h2>2. Generate a puzzle</h2>
+    <div class="form-row">
+      <label for="difficulty">Difficulty</label>
+      <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium" selected>Medium</option>
+        <option value="hard">Hard</option>
+        <option value="expert">Expert</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label for="seed-input">Seed (optional)</label>
+      <input type="text" id="seed-input" placeholder="random">
+    </div>
+
+    <div class="form-row">
+      <button type="button" id="generate-btn" class="btn btn-primary">Generate puzzle</button>
+      <span id="generating-msg" class="saved-msg" hidden>Generating&hellip;</span>
+    </div>
+
+    <h3>Printable set</h3>
+    <p class="hint-text">Generate several random puzzles at the difficulty above and print them in color, 6 per page on legal paper (8.5&Prime; &times; 14&Prime;).</p>
+    <div class="form-row">
+      <label for="batch-count">Number of puzzles</label>
+      <input type="number" id="batch-count" min="1" max="60" value="6">
+    </div>
+    <div class="form-row">
+      <label for="batch-answers">Answer key</label>
+      <input type="checkbox" id="batch-answers">
+      <span class="hint-text">Add solution pages after the puzzles</span>
+    </div>
+    <div class="form-row">
+      <button type="button" id="batch-generate-btn" class="btn btn-primary">Generate set</button>
+      <span id="batch-progress" class="saved-msg" hidden></span>
+    </div>
+  </section>
+
+  <!-- PRINTABLE SET -->
+  <section class="panel" id="batch-panel" hidden>
+    <div class="play-controls no-print">
+      <h2 class="batch-title">Printable set</h2>
+      <button type="button" id="batch-print-btn" class="btn btn-primary">Print set</button>
+    </div>
+    <p class="hint-text no-print">In the print dialog, choose paper size <strong>Legal</strong> and turn on <strong>Background graphics</strong> if your browser shows that option, so the block colors print.</p>
+    <div id="print-sheet" class="print-sheet"></div>
+  </section>
+
+  <!-- PUZZLE VIEW / PLAY -->
+  <section class="panel" id="puzzle-panel" hidden>
+    <div class="printable">
+      <h2>3. Puzzle</h2>
+      <div id="puzzle-meta" class="puzzle-meta"></div>
+
+      <div id="legend" class="legend"></div>
+
+      <div id="bottles-container" class="bottles-container"></div>
+
+      <details id="setup-list-details" open>
+        <summary>Setup list (text)</summary>
+        <pre id="setup-list-text" class="setup-list-text"></pre>
+      </details>
+    </div>
+
+    <div class="play-controls no-print">
+      <button type="button" id="undo-btn" class="btn">Undo</button>
+      <button type="button" id="reset-btn" class="btn">Reset</button>
+      <button type="button" id="hint-btn" class="btn">Hint</button>
+      <button type="button" id="copy-link-btn" class="btn">Copy link</button>
+      <button type="button" id="print-btn" class="btn">Print</button>
+      <span class="move-counter">Moves: <strong id="move-counter">0</strong></span>
+    </div>
+    <div id="win-message" class="win-message" hidden>You solved it!</div>
+    <div id="hint-message" class="hint-message" hidden></div>
+
+    <details id="solution-details">
+      <summary class="no-print">Show solution</summary>
+      <div class="solution-viewer">
+        <div class="solution-controls no-print">
+          <button type="button" id="sol-prev-btn" class="btn">Prev</button>
+          <span id="solution-step-text">Step 0/0</span>
+          <button type="button" id="sol-next-btn" class="btn">Next</button>
+        </div>
+        <div id="solution-bottles" class="bottles-container"></div>
+        <ol id="solution-list" class="solution-list"></ol>
+      </div>
+    </details>
+  </section>
+
+</main>
+
+<script src="src/engine.js"></script>
+<script src="src/app.js"></script>
+</body>
+</html>
