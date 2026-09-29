@@ -138,8 +138,8 @@ Expert = long solutions, short same-color runs, no pre-sorted slot.
      slot count, empty-slot count, partial fill level, or per-color block count.
    - color list: rows of {color picker, name} only (no per-color count — every color always uses
      exactly H blocks); the list's length is always kept in sync with N (changing N or
-     adding/removing a row resizes it, minimum 2 colors); sensible default palette (8 colors,
-     height 4 → 10 slots).
+     adding/removing a row resizes it, minimum 2 colors); sensible default palette (9 colors:
+     Red, Blue, White, Orange, Green, Yellow, Gray, Pink, Purple; height 5 → 11 slots).
    - pour rule toggle: "Classic (pour as much as fits)" vs "Strict (whole color group must fit)".
 2. **Generate panel**: difficulty (Easy/Medium/Hard/Expert), optional seed, "Generate" button.
    Show clear errors from the engine.
