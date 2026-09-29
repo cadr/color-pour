@@ -529,14 +529,14 @@ async function main() {
     // Verify defaults are restored
     const colorsAfterReset = await cdp.evaluate("document.getElementById('input-colors').value");
     const capacityAfterReset = await cdp.evaluate("document.getElementById('input-capacity').value");
-    assert.strictEqual(colorsAfterReset, '5', 'color count reset to default (5)');
-    assert.strictEqual(capacityAfterReset, '6', 'slot height reset to default (6)');
+    assert.strictEqual(colorsAfterReset, '9', 'color count reset to default (9)');
+    assert.strictEqual(capacityAfterReset, '5', 'slot height reset to default (5)');
     // Reload and verify localStorage was cleared
     await navigate(INDEX_URL);
     const colorsAfterReloadPostReset = await cdp.evaluate("document.getElementById('input-colors').value");
     const capacityAfterReloadPostReset = await cdp.evaluate("document.getElementById('input-capacity').value");
-    assert.strictEqual(colorsAfterReloadPostReset, '5', 'color count is still default (5) after reload (localStorage cleared)');
-    assert.strictEqual(capacityAfterReloadPostReset, '6', 'slot height is still default (6) after reload (localStorage cleared)');
+    assert.strictEqual(colorsAfterReloadPostReset, '9', 'color count is still default (9) after reload (localStorage cleared)');
+    assert.strictEqual(capacityAfterReloadPostReset, '5', 'slot height is still default (5) after reload (localStorage cleared)');
     console.log('  OK: reset button clears saved setup and restores defaults.');
 
     // ---- 8c. Printable set: N puzzles, 6 per legal page, answer key ----
@@ -566,7 +566,7 @@ async function main() {
     );
     assert.strictEqual(setInfo.error, false, 'no error while generating a set');
     assert.deepStrictEqual(setInfo.perPage, [6, 2], '8 puzzles lay out as 6 on page 1 and 2 on page 2');
-    assert.strictEqual(setInfo.bottlesPerCard, 7, 'each card shows all N + 2 = 7 slots');
+    assert.strictEqual(setInfo.bottlesPerCard, 11, 'each card shows all N + 2 = 11 slots');
     assert.strictEqual(setInfo.staticTubes, 0, 'printed tubes are static (not buttons)');
     assert.strictEqual(setInfo.answers, 8, 'answer key lists one entry per puzzle');
 

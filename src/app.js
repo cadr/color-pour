@@ -12,16 +12,20 @@
     { name: 'Blue', hex: '#1e88e5' },
     { name: 'White', hex: '#f5f5f5' },
     { name: 'Orange', hex: '#fb8c00' },
-    { name: 'Green', hex: '#43a047' }
+    { name: 'Green', hex: '#43a047' },
+    { name: 'Yellow', hex: '#fdd835' },
+    { name: 'Gray', hex: '#757575' },
+    { name: 'Pink', hex: '#ec407a' },
+    { name: 'Purple', hex: '#8e24aa' }
   ];
-  // Colors appended beyond the defaults continue from index 5, so the first
-  // five entries mirror DEFAULT_COLORS to avoid duplicate hues.
-  var COLOR_PALETTE = ['#e53935', '#1e88e5', '#f5f5f5', '#fb8c00', '#43a047', '#fdd835', '#8e24aa', '#ec407a', '#00897b', '#546e7a', '#6d4c41'];
+  // Colors appended beyond the defaults continue from index 9, so the first
+  // nine entries mirror DEFAULT_COLORS to avoid duplicate hues.
+  var COLOR_PALETTE = ['#e53935', '#1e88e5', '#f5f5f5', '#fb8c00', '#43a047', '#fdd835', '#757575', '#ec407a', '#8e24aa', '#00897b', '#6d4c41'];
 
   // ---- app state ----
   function defaultSetup() {
     return {
-      capacity: 6,
+      capacity: 5,
       pourMode: 'classic',
       colors: cloneColors(DEFAULT_COLORS)
     };
