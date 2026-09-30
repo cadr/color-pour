@@ -269,7 +269,14 @@ details summary { cursor: pointer; font-weight: 600; padding: 0.25rem 0; }
 
 @media (max-width: 480px) {
   .form-row label { min-width: 100%; }
-  .bottle { width: 2.2rem; }
+  /* Tighter page/panel padding, slot gaps, and number-only slot labels so a
+     9-color puzzle's 9 filled slots fit on one row on a phone in portrait
+     (e.g. iPhone 14 Pro, 393px wide). */
+  #app { padding-left: 0.5rem; padding-right: 0.5rem; }
+  .panel { padding-left: 0.75rem; padding-right: 0.75rem; }
+  .bottles-container { gap: 1rem 0.35rem; }
+  .bottle-label-word { display: none; }
+  .bottle { width: 2rem; }
   .block, .block-empty-slot { height: 1.25rem; }
 }
 
