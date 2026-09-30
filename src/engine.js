@@ -432,10 +432,10 @@
     blocks = shuffle(blocks, rng);
 
     var usedBottles = config.bottles - emptyBottles;
-    // Randomize WHICH slot indices stay empty (rather than always the last
-    // `emptyBottles` positions), so the two empty slots aren't always at the
-    // same spot in the numbered layout.
-    var order = shuffle(seq(config.bottles), rng);
+    // The empty slots are always the LAST `emptyBottles` positions, so the
+    // puzzle view can omit them (the player knows the trailing slots start
+    // empty) and the full slots fit on one row on narrow screens.
+    var order = seq(config.bottles);
     var state = [];
     for (var i = 0; i < config.bottles; i++) state.push([]);
     var bi = 0, guard = 0;

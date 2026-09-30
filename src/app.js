@@ -38,6 +38,7 @@
   var pastStates = null; // stack of states, index 0 = initial
   var selectedSlot = null;
   var hintHighlight = null; // {from,to}
+  var showEmptySlots = false; // puzzle view hides the trailing empty slots unless toggled on
 
   var solutionStates = null;
   var solutionIndex = 0;
@@ -248,7 +249,11 @@
     var wrap = el('div', 'bottle-wrap');
     // Printed cards aren't interactive, so they get a plain <div> tube and a
     // bare slot number that's no wider than the (narrow) tube.
-    var label = el('div', 'bottle-label', opts.static ? String(idx + 1) : 'Slot ' + (idx + 1));
+    // On-screen labels read "Slot N", but the word is hidden on narrow screens
+    // (see styles.css) so the label is no wider than the tube.
+    var label = el('div', 'bottle-label');
+    if (!opts.static) label.appendChild(el('span', 'bottle-label-word', 'Slot '));
+    label.appendChild(document.createTextNode(String(idx + 1)));
 
     var btn = document.createElement(opts.static ? 'div' : 'button');
     if (!opts.static) btn.type = 'button';
@@ -285,9 +290,32 @@
   function renderBottleGroup(container, state, colors, capacity, opts) {
     container.innerHTML = '';
     var labels = computeColorLabels(colors);
-    state.forEach(function (bottle, idx) {
+    var visible = opts && opts.visibleCount != null ? opts.visibleCount : state.length;
+    state.slice(0, visible).forEach(function (bottle, idx) {
       container.appendChild(buildBottleElement(bottle, idx, colors, labels, capacity, opts));
     });
+  }
+
+  // Number of slots to show in the puzzle view: unless the player toggles
+  // them on, the trailing slots that start empty (and are still empty) are
+  // omitted so the full slots fit on one row on a phone.
+  function visibleSlotCount() {
+    var n = playState.length;
+    if (showEmptySlots) return n;
+    while (n > 0 && !playState[n - 1].length && !currentPuzzle.state[n - 1].length) n--;
+    return n;
+  }
+
+  function updateEmptySlotsButton() {
+    var btn = $('empty-slots-btn');
+    var hidden = currentPuzzle ? playState.length - visibleSlotCount() : 0;
+    btn.textContent = showEmptySlots ? 'Hide empty slots' : 'Show empty slots';
+    btn.hidden = !showEmptySlots && hidden === 0;
+  }
+
+  function onToggleEmptySlots() {
+    showEmptySlots = !showEmptySlots;
+    renderPlayBottles();
   }
 
   function renderLegend(colors, legend) {
@@ -377,9 +405,11 @@
       onClick: onSlotClick,
       selected: selectedSlot,
       highlightFrom: hintHighlight ? hintHighlight.from : null,
-      highlightTo: hintHighlight ? hintHighlight.to : null
+      highlightTo: hintHighlight ? hintHighlight.to : null,
+      visibleCount: visibleSlotCount()
     };
     renderBottleGroup($('bottles-container'), playState, currentPuzzle.colors, currentPuzzle.rules.capacity, opts);
+    updateEmptySlotsButton();
   }
 
   function updateMoveCounter() {
@@ -464,6 +494,7 @@
         } else {
           var mv = result.moves[0];
           hintHighlight = { from: mv.from, to: mv.to };
+          if (Math.max(mv.from, mv.to) >= visibleSlotCount()) showEmptySlots = true;
           msg.textContent = 'Hint: ' + moveText(mv, currentPuzzle.colors);
         }
       } else if (result.solvable === false) {
@@ -751,6 +782,7 @@
     $('undo-btn').addEventListener('click', onUndo);
     $('reset-btn').addEventListener('click', onReset);
     $('hint-btn').addEventListener('click', onHint);
+    $('empty-slots-btn').addEventListener('click', onToggleEmptySlots);
     $('copy-link-btn').addEventListener('click', onCopyLink);
     $('print-btn').addEventListener('click', function () { window.print(); });
 

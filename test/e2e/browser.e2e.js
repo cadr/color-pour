@@ -346,8 +346,11 @@ async function main() {
       const puzzle = state.puzzle;
       assert.ok(puzzle && Array.isArray(puzzle.state), difficulty + ': puzzle state present');
 
+      // The 2 empty slots are always the last two, and the puzzle view hides
+      // them by default so the full slots fit on one row on a phone.
+      assert.ok(puzzle.state.slice(-2).every((b) => b.length === 0), difficulty + ': the last 2 slots are the empty ones');
       const slotCount = await cdp.evaluate("document.querySelectorAll('#bottles-container .bottle').length");
-      assert.strictEqual(slotCount, puzzle.state.length, difficulty + ': rendered slot count matches puzzle.state.length');
+      assert.strictEqual(slotCount, puzzle.state.length - 2, difficulty + ': puzzle view hides the 2 trailing empty slots');
 
       const blockCount = await cdp.evaluate("document.querySelectorAll('#bottles-container .block').length");
       const expectedBlocks = puzzle.state.reduce((s, b) => s + b.length, 0);
@@ -399,6 +402,9 @@ async function main() {
 
     // ---- 3. Play the full solution, then undo/reset ----
     console.log('\n[3] Playing the full solution via clicks...');
+    await cdp.evaluate("document.getElementById('empty-slots-btn').click(); true");
+    const shownCount = await cdp.evaluate("document.querySelectorAll('#bottles-container .bottle').length");
+    assert.strictEqual(shownCount, puzzle.state.length, '"Show empty slots" reveals every slot');
     for (const mv of puzzle.solution) {
       await cdp.evaluate(
         "document.querySelectorAll('#bottles-container .bottle')[" + mv.from + "].click(); true"
